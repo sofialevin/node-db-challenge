@@ -10,16 +10,22 @@ router.get('/', (req, res) => {
   .catch(err => res.status(500).json({ message: "'Failed to get projects from database'", error: err }))
 })
 
-router.post('/', (req, res) => {
+router.post('/', checkName, (req, res) => {
   const { body } = req
 
-  if (body.project_name) {
-    Projects.add(body)
-      .then(project => res.status(201).json({...project, completed: project.completed ? true : false}))
-      .catch(err => res.status(500).json({ message: "'Failed to create project in database'", error: err }))
-  } else {
-    res.status(400).json({ message: "Missing project name" })
-  }
+  Projects.add(body)
+    .then(project => res.status(201).json({...project, completed: project.completed ? true : false}))
+    .catch(err => res.status(500).json({ message: "'Failed to create project in database'", error: err }))
 })
+
+function checkName(req, res, next) {
+  const { project_name } = req.body;
+
+  if (!project_name) {
+    res.status(400).json({ message: "Missing project name" })
+  } else {
+    next()
+  }
+}
 
 module.exports = router;
