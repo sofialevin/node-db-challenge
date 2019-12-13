@@ -5,11 +5,11 @@ function find() {
 }
 
 function add(project) {
-  db('projects')
+  return db('projects')
     .insert(project)
     .then(res => {
       const id = res[0];
-      return db("projects").where({ id });
+      return db("projects").where({ id }).first();
     });
 }
 
