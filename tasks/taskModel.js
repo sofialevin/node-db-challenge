@@ -5,7 +5,7 @@ function find() {
 }
 
 function add(task) {
-  db('tasks')
+  return db('tasks')
     .insert(task)
     .then(res => {
       const id = res[0];
