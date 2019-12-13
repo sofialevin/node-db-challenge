@@ -5,11 +5,11 @@ function find() {
 }
 
 function add(resource) {
-  db('resources')
+  return db('resources')
     .insert(resource)
     .then(res => {
       const id = res[0];
-      return db("resources").where({ id });
+      return db("resources").where({ id }).first();
     });
 }
 
