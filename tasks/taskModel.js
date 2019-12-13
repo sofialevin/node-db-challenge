@@ -1,7 +1,9 @@
 const db = require('../data/db-config.js');
 
 function find() {
-  return db('tasks');
+  return db('tasks')
+    .join('projects', 'tasks.project_id', 'projects.id')
+    .select('*')
 }
 
 function add(task) {
